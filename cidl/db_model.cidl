@@ -1,0 +1,56 @@
+
+# 用户
+struct User {
+	
+	# 用户ID
+	UserID              string   [ db:"uid"                    ]
+	
+	# 微信union id
+	WxUnionId           string   [ db:"wx_union_id"            ]
+	
+	# 昵称
+	Nickname            string   [ db:"nickname"               ]
+	
+	# 头像
+	Avatar              string   [ db:"avatar"                 ]
+	
+	# 姓名
+	Name                string   [ db:"name"                   ]
+	
+	# 手机号
+	Mobile              string   [ db:"mobile"                 ]
+	
+	# 身份证号
+	IdCardNumber        string   [ db:"id_card_number"         ]
+	
+	# 身份证正面
+	IdCardFront         string   [ db:"id_card_front"          ]
+	
+	# 身份证背面
+	IdCardBack          string   [ db:"id_card_back"           ]
+	
+	# 是否是团购组织负责人
+	IsOrgManager        bool     [ db:"is_org_manager"         ]
+	
+	# 是否是团购组织成员
+	IsOrgStaff          bool     [ db:"is_org_staff"           ]
+	
+	# 是否是社区合伙人
+	IsCmtManager        bool     [ db:"is_cmt_manager"         ]
+	
+	# 是否禁用团购组织负责人
+	IsDisableOrgManager bool     [ db:"is_disable_org_manager" ]
+	
+	# 是否禁用团购组织成员
+	IsDisableOrgStaff   bool     [ db:"is_disable_org_staff"   ]
+	
+	# 是否禁用社区合伙人
+	IsDisableCmtManger  bool     [ db:"is_disable_cmt_manger"  ]
+	
+	# 创建时间
+	CreateTime          datetime [ db:"create_time"            ]
+	
+	# 更新时间
+	UpdateTime          datetime [ db:"update_time"            ]
+}
+

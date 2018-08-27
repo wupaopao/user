@@ -1,0 +1,18 @@
+errors {
+	ErrGenerateAuthWxXcxTokenFailed 3001 "生成微信小程序用户TOKEN失败"         
+	ErrUserWasBound                 3002 "用户已经被绑定"                          
+	ErrWxXcxEmptyUnionId            3102 "获取UnionId为空"                            
+	ErrWxXcxIllegalToken            3103 "无效token"                                    
+	ErrWxXcxUpdateTokenFailed       3104 "更新token失败"                              
+	ErrWxXcxUserExists              3105 "微信或者手机绑定的用户已经存在"  
+	ErrWxXcxDecryptUserInfoFailed   3106 "解码用户信息失败"                       
+	ErrWxXcxMobileNotExist          3107 "手机用户未存在"                          
+	ErrWxXcxMobileHasBindWxUnionId  3108 "手机已经绑定其他微信"                 
+	ErrWxXcxMobileNotChange         3109 "手机未发生更改"                          
+	ErrOrgIllegalToken              3200 "无效City授权Token"                          
+	ErrOrgGenerateTokenFailed       3201 "生成团购组织端TOKEN失败"               
+	ErrOrgLoginUserNotExist         3202 "用户不存在或无权进入"                 
+	ErrOrgLoginUserForbidden        3203 "账号被禁用"                 
+	ErrAdminIllegalToken            3300 "无效Admin授权Token"                         
+}
+

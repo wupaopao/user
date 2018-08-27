@@ -1,0 +1,5 @@
+wx_work:
+  corp_id : "wwf0ceb5e9657988df" # 公司ID
+  agent_id : "1000002" # 应用ID
+  secret : "Q2pXUn_5qJkZbcgpgDy9TZxdKdB-anCN8nJAIv2Gtn4" # 应用secret
+  redirect_uri : "https://admin.bilimall.com.cn/api/v1/user/admin/wx_work/login/wx_work_callback"

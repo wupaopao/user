@@ -1,0 +1,40 @@
+POST "/inner/user/auth/token_info/admin" {
+	
+	Name "InnerUserAuthTokenInfoAdmin"
+	Type "json"
+	Ask {
+		UserID string [ binding:"required" ]
+		Token  string [ binding:"required" ]
+	}
+	Ack AuthAdmin
+}
+
+
+
+# org授权信息
+POST "/inner/user/auth/token_info/org" {
+	
+	Name "InnerUserAuthTokenInfoOrg"
+	Type "json"
+	Ask {
+		UserID string [ binding:"required" ]
+		Token  string [ binding:"required" ]
+	}
+	Ack AuthCity
+}
+
+
+
+# 微信小程序授权信息
+POST "/inner/user/auth/token_info/wx_xcx" {
+	
+	Name "InnerUserAuthTokenInfoWxXcx"
+	Type "json"
+	Ask {
+		UserID string [ binding:"required" ]
+		Token  string [ binding:"required" ]
+	}
+	Ack AuthWxXcx
+}
+
+

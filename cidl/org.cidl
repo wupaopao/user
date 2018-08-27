@@ -1,0 +1,149 @@
+
+# 用户信息
+GET "/user/org/user/info/:user_id" {
+	
+	Name "OrgUserInfoByUserId"
+	Type "json"
+	Ack User
+	Params {
+		
+		# 用户ID
+		UserID string [ form:"user_id" ]
+	}
+}
+
+
+
+# 城市合伙人用户
+GET "/user/org/user/organization_manager/list" {
+	
+	Name "OrgUserOrganizationManagerList"
+	Type "json"
+	Ack {
+		
+		# 总记录数
+		Count uint32     
+		
+		# 组织列表
+		List  array<User>
+	}
+	Query {
+		
+		# 页码
+		Page     uint32 [ form:"page"      binding:"required,gt=0"       ]
+		
+		# 分页大小
+		PageSize uint32 [ form:"page_size" binding:"required,gt=0,lt=50" ]
+		
+		# 搜索
+		Search   string [ form:"search"    ]
+	}
+}
+
+
+
+# 社区合伙人
+GET "/user/org/user/community_manager/list" {
+	
+	Name "OrgUserCommunityManagerList"
+	Type "json"
+	Ack {
+		
+		# 总记录数
+		Count uint32     
+		
+		# 组织列表
+		List  array<User>
+	}
+	Query {
+		
+		# 页码
+		Page     uint32 [ form:"page"      binding:"required,gt=0"       ]
+		
+		# 分页大小
+		PageSize uint32 [ form:"page_size" binding:"required,gt=0,lt=50" ]
+		
+		# 搜索
+		Search   string [ form:"search"    ]
+	}
+}
+
+
+
+# 组织成员
+GET "/user/org/user/organization_staff/list" {
+	
+	Name "OrgUserOrganizationStaffList"
+	Type "json"
+	Ack {
+		
+		# 总记录数
+		Count uint32     
+		
+		# 组织列表
+		List  array<User>
+	}
+	Query {
+		
+		# 页码
+		Page     uint32 [ form:"page"      binding:"required,gt=0"       ]
+		
+		# 分页大小
+		PageSize uint32 [ form:"page_size" binding:"required,gt=0,lt=50" ]
+		
+		# 搜索
+		Search   string [ form:"search"    ]
+	}
+}
+
+
+
+# 身份证token
+POST "/user/org/user/id_card_pic_token" {
+	
+	Name "OrgUserIDCardPicToken"
+	Type "json"
+	Ask {
+		FileNames array<string>
+	}
+	Ack {
+		Tokens array<AckPicToken>
+	}
+}
+
+
+
+# 访问身份证图片
+GET "/user/org/user/access_id_card_pic" {
+	
+	Name "OrgUserAccessIDCardPic"
+	Type "json"
+	Query {
+		Uri string [ form:"uri" binding:"required" ]
+	}
+}
+
+
+
+# 检查手机是否已经被绑定为团购组织管理员、组织成员或者社区合伙人
+GET "/user/org/user/check_bind_mobile/:mobile" {
+	
+	Name "OrgUserCheckBindMobileByMobile"
+	Type "json"
+	Ack {
+		
+		# 是否可以被绑定
+		CanBeBound bool  
+		
+		# 用户是否已经存在
+		UserExist  bool  
+		
+		# 用户名称
+		UserName   string
+	}
+	Params {
+		Mobile string [ form:"mobile" binding:"required,numeric" ]
+	}
+}
+
+

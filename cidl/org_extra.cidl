@@ -1,0 +1,53 @@
+
+# 登陆
+POST "/user/org/user/login" {
+	
+	Name "UserOrgUserLogin"
+	Type "json"
+	Ask {
+		
+		# 手机
+		Mobile     string [ binding:"required,numeric" ]
+		
+		# 验证码
+		VerifyCode string [ binding:"required"         ]
+	}
+	Ack {
+		.AuthCityStaff
+		
+		# 用户ID
+		UserId string       
+		
+		# Token
+		Token  string       
+		
+		# 用户信息
+		User   User         
+		
+		# 组织成员信息
+		Staff  AuthCityStaff
+	}
+}
+
+
+
+# 退出登陆
+POST "/user/org/user/logout" {
+	
+	Name "UserOrgUserLogout"
+	Type "json"
+}
+
+
+
+# 登陆获取手机验证码
+GET "/user/org/user/login_mobile_verify" {
+	
+	Name "OrgUserLoginMobileVerify"
+	Type "json"
+	Query {
+		Mobile string [ form:"mobile" binding:"required,numeric" ]
+	}
+}
+
+

@@ -1,0 +1,268 @@
+
+# 获取用户
+GET "/inner/user/user/info/:user_id" {
+	
+	Name "InnerUserInfoByUserID"
+	Type "json"
+	Ack User
+	Params {
+		UserID string [ form:"user_id" ]
+	}
+}
+
+
+
+# 通过手机号获取用户
+GET "/inner/user/user/info_by_mobile/:mobile" {
+	
+	Name "InnerUserUserInfoByMobile"
+	Type "json"
+	Ack {
+		
+		# 用户是否存在
+		Exist bool
+		
+		# 用户
+		User  User
+	}
+	Params {
+		Mobile string [ form:"mobile" binding:"required,numeric" ]
+	}
+}
+
+
+
+# 设置用户为社区合伙人
+POST "/inner/user/user/community_manager/edit/:user_id" {
+	
+	Name "InnerUserCommunityManagerEditByUserID"
+	Type "json"
+	Ask {
+		IsCmtManager bool [ binding:"required" ]
+	}
+	Params {
+		UserID string [ form:"user_id" ]
+	}
+}
+
+
+
+# 添加组织管理员用户
+POST "/inner/user/user/org_manager/add_or_update" {
+	
+	Name "InnerUserUserOrgManagerAddOrUpdate"
+	Type "json"
+	Ask {
+		Name         string [ binding:"required,lte=64"         ]
+		Mobile       string [ binding:"required,numeric,lte=11" ]
+		Nickname     string [ binding:"required,lte=64"         ]
+		IdCardNumber string [ binding:"required,lte=18"         ]
+		IdCardFront  string [ binding:"required,lte=255"        ]
+		IdCardBack   string [ binding:"required,lte=255"        ]
+	}
+	Ack {
+		UserId string
+	}
+}
+
+
+
+# 更新组织管理员用户
+POST "/inner/user/user/org_manager/update" {
+	
+	Name "InnerUserUserOrgManagerUpdate"
+	Type "json"
+	Ask {
+		UserId       string [ binding:"required"                ]
+		Name         string [ binding:"required,lte=64"         ]
+		Mobile       string [ binding:"required,numeric,lte=11" ]
+		Nickname     string [ binding:"required,lte=64"         ]
+		IdCardNumber string [ binding:"required,lte=18"         ]
+		IdCardFront  string [ binding:"required,lte=255"        ]
+		IdCardBack   string [ binding:"required,lte=255"        ]
+	}
+}
+
+
+
+# 解绑组织管理员用户
+POST "/inner/user/user/org_manager/unbind" {
+	
+	Name "InnerUserUserOrgManagerUnbind"
+	Type "json"
+	Ask {
+		
+		# 旧管理员ID
+		OldManagerUid string [ binding:"required" ]
+	}
+}
+
+
+
+# 添加组织成员
+POST "/inner/user/user/org_staff/add_or_update" {
+	
+	Name "InnerUserUserOrgStaffAddOrUpdate"
+	Type "json"
+	Ask {
+		Name   string [ binding:"required,lte=64"         ]
+		Mobile string [ binding:"required,numeric,lte=11" ]
+	}
+	Ack {
+		UserId string
+	}
+}
+
+
+
+# 更新组织成员
+POST "/inner/user/user/org_staff/update/:user_id" {
+	
+	Name "InnerUserUserOrgStaffUpdateByUserID"
+	Type "json"
+	Ask {
+		Name   string [ binding:"required,lte=64"         ]
+		Mobile string [ binding:"required,numeric,lte=11" ]
+	}
+	Params {
+		UserID string [ form:"user_id" ]
+	}
+}
+
+
+
+# 更新社区合伙人信息
+POST "/inner/user/user/cmt_manager/update/:user_id" {
+	
+	Name "InnerUserUserCmtManagerUpdateByUserID"
+	Type "json"
+	Ask {
+		
+		# 姓名
+		Name         string [ binding:"required,lte=64" ]
+		
+		# 身份证号码
+		IdCardNumber string [ binding:"lte=18"          ]
+		
+		# 身份证正面
+		IdCardFront  string [ binding:"lte=255"         ]
+		
+		# 身份证反面
+		IdCardBack   string [ binding:"lte=255"         ]
+	}
+	Params {
+		UserID string [ form:"user_id" ]
+	}
+}
+
+
+
+# 更改社区合伙人
+POST "/inner/user/user/cmt_manager/change" {
+	
+	Name "InnerUserUserCmtManagerChange"
+	Type "json"
+	Ask {
+		
+		# 新管理员ID
+		NewManagerUid string [ binding:"required" ]
+		
+		# 旧管理员ID
+		OldManagerUid string [ binding:"required" ]
+	}
+}
+
+
+
+# 添加社区合伙人
+POST "/inner/user/user/cmt_manager/get_or_add" {
+	
+	Name "InnerUserUserCmtManagerGetOrAdd"
+	Type "json"
+	Ask {
+		
+		# 名称
+		Name         string [ binding:"required,lte=64"         ]
+		
+		# 手机
+		Mobile       string [ binding:"required,numeric,lte=11" ]
+		
+		# 身份证号码
+		IdCardNumber string [ binding:"lte=18"                  ]
+		
+		# 身份证正面
+		IdCardFront  string [ binding:"lte=255"                 ]
+		
+		# 身份证背面
+		IdCardBack   string [ binding:"lte=255"                 ]
+	}
+	Ack {
+		
+		# 是否是新用户
+		IsNew bool
+		
+		# 用户信息
+		User  User
+	}
+}
+
+
+
+# 解绑社区合伙人
+POST "/inner/user/user/cmt_manager/unbind" {
+	
+	Name "InnerUserUserCmtManagerUnbind"
+	Type "json"
+	Ask {
+		
+		# 旧管理员ID
+		OldManagerUid string [ binding:"required" ]
+	}
+}
+
+
+
+# 微信小程序专用内部接口
+# 添加社区合伙人
+POST "/inner/user/wx_xcx/cmt_manager/get_or_add" {
+	
+	Name "InnerUserWxXcxCmtManagerGetOrAdd"
+	Type "json"
+	Ask {
+		
+		# 已有用户ID或者微信UnionId
+		UserId string [ binding:"required"                ]
+		
+		# Token
+		Token  string [ binding:"required"                ]
+		
+		# 名称
+		Name   string [ binding:"required,lte=64"         ]
+		
+		# 手机
+		Mobile string [ binding:"required,numeric,lte=11" ]
+	}
+	Ack {
+		
+		# 是否是新用户
+		IsNew bool
+		
+		# 用户信息
+		User  User
+	}
+}
+
+
+
+# 刷新token
+POST "/inner/user/wx_xcx/refresh_token" {
+	
+	Name "InnerUserWxXcxRefreshToken"
+	Type "json"
+	Ask {
+		UserId string [ binding:"required" ]
+		Token  string [ binding:"required" ]
+	}
+}
+
+

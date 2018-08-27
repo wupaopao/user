@@ -1,0 +1,225 @@
+
+# 微信用户信息
+# 微信小程序授权登陆
+POST "/user/wx_xcx/user/auth" {
+	
+	Name "WxXcxUserAuth"
+	Type "json"
+	Ask {
+		
+		# 登陆Code，用于获取解密用的sessionKey作为aes key
+		Code          string [ binding:"required" ]
+		
+		# wx.getUserInfo获取的用户信息
+		# 用户信息对象，不包含 openid 等敏感信息
+		# https://mp.weixin.qq.com/debug/wxadoc/dev/api/open.html#wxgetuserinfoobject
+		EncryptedData string [ binding:"required" ]
+		
+		# 解密初始向量
+		InitVector    string [ binding:"required" ]
+	}
+	Ack {
+		
+		# 是否是访客
+		IsVisitor        bool                     
+		
+		# Token
+		Token            string                   
+		
+		# 用户ID，如果IsVisitor=true，UserId为微信授权的UnionID
+		UserId           string                   
+		
+		# 用户信息，如果IsVisitor=true, User返回空对象
+		User             User                     
+		
+		# 团购组织
+		Organization     AuthWxXcxOrganization    
+		
+		# 团长信息,如果is_cmt_manager=true才会返回此字段
+		CommunityManager AuthWxXcxCommunityManager
+	}
+}
+
+
+
+# TODO 测试用，微信假授权接口，待删除
+POST "/user/wx_xcx/user/auth_fake" {
+	
+	Name "WxXcxUserAuthFake"
+	Type "json"
+	Ask {
+		
+		# 假UnionId
+		FakeUnionId   string [ binding:"required" ]
+		
+		# 登陆Code，用于获取解密用的sessionKey作为aes key
+		Code          string [ binding:"required" ]
+		
+		# wx.getUserInfo获取的用户信息
+		# 用户信息对象，不包含 openid 等敏感信息
+		# https://mp.weixin.qq.com/debug/wxadoc/dev/api/open.html#wxgetuserinfoobject
+		EncryptedData string [ binding:"required" ]
+		
+		# 解密初始向量
+		InitVector    string [ binding:"required" ]
+	}
+	Ack {
+		
+		# 是否是访客
+		IsVisitor        bool                     
+		
+		# Token
+		Token            string                   
+		
+		# 用户ID，如果IsVisitor=true，UserId为微信授权的UnionID
+		UserId           string                   
+		
+		# 用户信息，如果IsVisitor=true, User返回空对象
+		User             User                     
+		
+		# 团购组织
+		Organization     AuthWxXcxOrganization    
+		
+		# 团长信息,如果is_cmt_manager=true才会返回此字段
+		CommunityManager AuthWxXcxCommunityManager
+	}
+}
+
+
+
+# TODO 测试用，微信假用户，待删除
+struct FakeUser {
+	UnionId  string [ db:"union_id" ]
+	Nickname string [ db:"nickname" ]
+}
+
+GET "/user/wx_xcx/user/fake_user_list" {
+	
+	Name "WxXcxUserFakeUserList"
+	Type "json"
+	Ack {
+		Users array<FakeUser>
+	}
+}
+
+
+
+# 修改基本信息
+POST "/user/wx_xcx/user/edit_basic/:user_id" {
+	
+	Name "WxXcxUserEditBasicByUserID"
+	Type "json"
+	Ask {
+		Nickname string [ binding:"required,lte=64"         ]
+		Mobile   string [ binding:"required,numeric,lte=11" ]
+	}
+	Params {
+		UserID string [ form:"user_id" ]
+	}
+}
+
+
+
+# 修改昵称
+POST "/user/wx_xcx/user/edit_nickname/:user_id" {
+	
+	Name "WxXcxUserEditNicknameByUserID"
+	Type "json"
+	Ask {
+		Nickname string [ binding:"required,lte=64" ]
+	}
+	Params {
+		UserID string [ form:"user_id" ]
+	}
+}
+
+
+
+# 修改手机获取手机验证码
+GET "/user/wx_xcx/user/mobile_verify" {
+	
+	Name "WxXcxUserMobileVerify"
+	Type "json"
+	Query {
+		Mobile string [ form:"mobile" binding:"required,numeric" ]
+	}
+}
+
+
+
+# 修改手机
+POST "/user/wx_xcx/user/edit_mobile/:user_id" {
+	
+	Name "WxXcxUserEditMobileByUserID"
+	Type "json"
+	Ask {
+		Mobile     string [ binding:"required,numeric" ]
+		VerifyCode string [ binding:"required"         ]
+	}
+	Params {
+		UserID string [ form:"user_id" ]
+	}
+}
+
+
+
+# 微信号绑定手机号手机验证码
+GET "/user/wx_xcx/user/wx_bind_mobile_verify" {
+	
+	Name "UserWxXcxUserWxBindMobileVerify"
+	Type "json"
+	Query {
+		Mobile string [ form:"mobile" binding:"required,numeric" ]
+	}
+}
+
+
+
+# 微信绑定手机号
+POST "/user/wx_xcx/user/wx_bind_mobile" {
+	
+	Name "UserWxXcxUserWxBindMobile"
+	Type "json"
+	Ask {
+		
+		# 手机号
+		Mobile     string [ binding:"required,numeric" ]
+		
+		# 手机验证码
+		VerifyCode string [ binding:"required"         ]
+	}
+}
+
+
+
+# 检查手机是否已经被绑定为团购组织管理员、组织成员或者社区合伙人
+GET "/user/wx_xcx/user/check_bind_mobile/:mobile" {
+	
+	Name "WxXcxUserCheckBindMobileByMobile"
+	Type "json"
+	Ack {
+		
+		# 是否可以被绑定
+		CanBeBound bool  
+		
+		# 用户是否已经存在
+		UserExist  bool  
+		
+		# 用户名称
+		UserName   string
+	}
+	Params {
+		Mobile string [ form:"mobile" binding:"required,numeric" ]
+	}
+}
+
+
+
+# 用户解绑微信
+POST "/user/wx_xcx/user/unbind_wx" {
+	
+	Name "WxXcxUserUnbindWx"
+	Type "json"
+}
+
+

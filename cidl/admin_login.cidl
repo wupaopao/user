@@ -1,0 +1,75 @@
+
+# 获取企业微信授权页面跳转
+GET "/user/admin/wx_work/login/wx_work_auth" {
+	
+	Name "AdminWxWorkLoginWxWorkAuth"
+	Type "json"
+	Query {
+		
+		# 授权成功后重定位的uri
+		RedirectUri string [ form:"redirect_uri" binding:"required" ]
+	}
+}
+
+
+
+# 获取企业微信授权数据
+GET "/user/admin/wx_work/login/wx_work_auth_data" {
+	
+	Name "AdminWxWorkLoginWxWorkAuthData"
+	Type "json"
+	
+	# 企业微信授权参数
+	Ack {
+		AppId       string [ json:"appid"        ]
+		AgentId     int32  [ json:"agentid"      ]
+		RedirectUri string [ json:"redirect_uri" ]
+		State       string [ json:"state"        ]
+	}
+	Query {
+		
+		# 授权成功后重定位的uri
+		RedirectUri string [ form:"redirect_uri" binding:"required" ]
+	}
+}
+
+
+
+# 企业微信回调
+GET "/user/admin/wx_work/login/wx_work_callback" {
+	
+	Name "AdminWxWorkLoginWxWorkCallback"
+	Type "json"
+	Query {
+		
+		# 跳转uri
+		RedirectUri string [ form:"redirect_uri" binding:"required" ]
+		Code        string [ form:"code"         ]
+		State       string [ form:"state"        binding:"required" ]
+	}
+}
+
+
+
+# 运营账户登出
+GET "/user/admin/wx_work/login/logout" {
+	
+	Name "AdminWxWorkLoginLogout"
+	Type "json"
+}
+
+
+
+# 获取用户基本信息
+GET "/user/admin/wx_work/user/basic_info" {
+	
+	Name "AdminWxWorkUserBasicInfo"
+	Type "json"
+	Ack {
+		UserID string [ json:"uid"    ]
+		Name   string [ json:"name"   ]
+		Avatar string [ json:"avatar" ]
+	}
+}
+
+

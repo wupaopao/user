@@ -1,0 +1,5 @@
+wx_work:
+  corp_id : "ww072c7a82d28135fd" # 公司ID
+  agent_id : "1000008" # 应用ID
+  secret : "bewIrpL3pp3q5ACVOXXjbc1OoZLWw_AvS7V45tNaImg" # 应用secret
+  redirect_uri : "http://admin.morefans.cc/api/v1/user/admin/wx_work/login/wx_work_callback"

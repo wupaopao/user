@@ -1,0 +1,8 @@
+user:
+    endpoint: "127.0.0.1:6379"
+    db: 9
+    size: 50
+auth:
+    endpoint: "127.0.0.1:6379"
+    db: 9
+    size: 50

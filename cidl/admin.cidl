@@ -1,0 +1,182 @@
+
+# 用户信息
+GET "/user/admin/user/info/:user_id" {
+	
+	Name "AdminUserInfoByUserId"
+	Type "json"
+	Ack User
+	Params {
+		
+		# 用户ID
+		UserID string [ form:"user_id" ]
+	}
+}
+
+
+
+# 通过手机号获取用户信息
+GET "/user/admin/user/info_by_mobile" {
+	
+	Name "AdminUserInfoByMobile"
+	Type "json"
+	Ack User
+	Query {
+		Mobile string [ form:"mobile" binding:"required,numeric" ]
+	}
+}
+
+
+
+# 城市合伙人用户列表
+GET "/user/admin/user/organization_manager/list" {
+	
+	Name "AdminUserOrganizationManagerList"
+	Type "json"
+	Ack {
+		
+		# 总记录数
+		Count uint32     
+		
+		# 组织列表
+		List  array<User>
+	}
+	Query {
+		
+		# 页码
+		Page     uint32 [ form:"page"      binding:"required,gt=0"       ]
+		
+		# 分页大小
+		PageSize uint32 [ form:"page_size" binding:"required,gt=0,lt=50" ]
+		
+		# 搜索
+		Search   string [ form:"search"    ]
+	}
+}
+
+
+
+# 社区合伙人列表
+GET "/user/admin/user/community_manager/list" {
+	
+	Name "AdminUserCommunityManagerList"
+	Type "json"
+	Ack {
+		
+		# 总记录数
+		Count uint32     
+		
+		# 组织列表
+		List  array<User>
+	}
+	Query {
+		
+		# 页码
+		Page     uint32 [ form:"page"      binding:"required,gt=0"       ]
+		
+		# 分页大小
+		PageSize uint32 [ form:"page_size" binding:"required,gt=0,lt=50" ]
+		
+		# 搜索
+		Search   string [ form:"search"    ]
+	}
+}
+
+
+
+# 组织成员列表
+GET "/user/admin/user/organization_staff/list" {
+	
+	Name "AdminUserOrganizationStaffList"
+	Type "json"
+	Ack {
+		
+		# 总记录数
+		Count uint32     
+		
+		# 组织列表
+		List  array<User>
+	}
+	Query {
+		
+		# 页码
+		Page     uint32 [ form:"page"      binding:"required,gt=0"       ]
+		
+		# 分页大小
+		PageSize uint32 [ form:"page_size" binding:"required,gt=0,lt=50" ]
+		
+		# 搜索
+		Search   string [ form:"search"    ]
+	}
+}
+
+
+
+# 身份证图片Token获取
+struct AckPicToken {
+	
+	# 图片文件原名
+	OriginalFileName string
+	
+	# 图片上传TOKEN
+	Token            string
+	
+	# 图片上传KEY
+	Key              string
+	
+	# 图片资源存放位置
+	StoreUrl         string
+	
+	# 图片上传访问链接
+	AccessUrl        string
+}
+
+
+# 身份证token
+POST "/user/admin/user/id_card_pic_token" {
+	
+	Name "AdminUserIDCardPicToken"
+	Type "json"
+	Ask {
+		FileNames array<string>
+	}
+	Ack {
+		Tokens array<AckPicToken>
+	}
+}
+
+
+
+# 访问身份证图片
+GET "/user/admin/user/access_id_card_pic" {
+	
+	Name "AdminUserAccessIDCardPic"
+	Type "json"
+	Query {
+		Uri string [ form:"uri" binding:"required" ]
+	}
+}
+
+
+
+# 检查手机是否已经被绑定为团购组织管理员、组织成员或者社区合伙人
+GET "/user/admin/user/check_bind_mobile/:mobile" {
+	
+	Name "AdminUserCheckBindMobileByMobile"
+	Type "json"
+	Ack {
+		
+		# 是否可以被绑定
+		CanBeBound bool  
+		
+		# 用户是否已经存在
+		UserExist  bool  
+		
+		# 用户名称
+		UserName   string
+	}
+	Params {
+		Mobile string [ form:"mobile" binding:"required,numeric" ]
+	}
+}
+
+
