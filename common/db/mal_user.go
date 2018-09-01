@@ -945,3 +945,20 @@ func (m *MallUser) EditIsCmtManager(userId string, isCmtManager bool) (result sq
 	result, err = m.DB.Exec(editSql, isCmtManager, userId)
 	return
 }
+
+// 更新用户禁用标志
+func (m *MallUser) UpdateUserDisableState(userId string, userType cidl.UserType, isDisable bool) (result sql.Result, err error) {
+
+	var strSql string
+	if userType == cidl.OrgManager {
+		strSql = `UPDATE usr_user SET is_disable_org_manager = ? WHERE uid=?`
+	} else if userType == cidl.OrgStaff {
+		
+		strSql = `UPDATE usr_user SET is_disable_org_staff = ? WHERE uid=?`
+	} else {
+		strSql = `UPDATE usr_user SET is_disable_cmt_manager = ? WHERE uid=?`
+	}
+	result, err = m.DB.Exec(strSql, isDisable, userId)
+	return
+}
+

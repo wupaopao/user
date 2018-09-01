@@ -85,9 +85,17 @@ func (m *WxXcxUserAuthImpl) Handler(ctx *http.Context) {
 		ctx.Errorf(api.ErrDbQueryFailed, "get user failed. %s", err)
 		return
 
-	} else if err == conn.ErrNoRows {
+	}else if err == conn.ErrNoRows {
 		user = nil
 		isVisitor = true
+	}
+
+	if !isVisitor {
+		if (user.IsOrgManager && user.IsDisableOrgManager) || (user.IsOrgStaff && user.IsDisableOrgStaff) || (user.IsCmtManager && user.IsDisableCmtManger) {
+			ctx.Errorf(cidl.ErrLoginUserForbidden,"account is forbidden.")
+			return
+		}
+	
 	}
 
 	auth := &com.AuthWxXcx{

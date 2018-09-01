@@ -12,7 +12,7 @@ errors {
 	ErrOrgIllegalToken              3200 "无效City授权Token"                          
 	ErrOrgGenerateTokenFailed       3201 "生成团购组织端TOKEN失败"               
 	ErrOrgLoginUserNotExist         3202 "用户不存在或无权进入"                 
-	ErrOrgLoginUserForbidden        3203 "账号被禁用"                 
+	ErrLoginUserForbidden        3203 "账号被禁用"                 
 	ErrAdminIllegalToken            3300 "无效Admin授权Token"                         
 }
 

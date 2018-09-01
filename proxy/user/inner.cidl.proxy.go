@@ -533,3 +533,65 @@ func (m *Proxy) InnerUserWxXcxRefreshToken(ask *AskInnerUserWxXcxRefreshToken,
 	}
 	return ack.Data, nil
 }
+
+type UserType int
+
+const (
+	// 团购组织负责人
+	OrgManager UserType = 1
+	// 团购组织成员
+	OrgStaff UserType = 2
+	// 社区合伙人
+	CmtManager UserType = 3
+)
+
+func (m UserType) String() string {
+	switch m {
+
+	case OrgManager:
+		return "OrgManager<enum UserType>"
+	case OrgStaff:
+		return "OrgStaff<enum UserType>"
+	case CmtManager:
+		return "CmtManager<enum UserType>"
+	default:
+		return "UNKNOWN_Name_<UserType>"
+	}
+}
+
+type AskInnerUserSetIsDisableByUserID struct {
+	UserType  UserType `binding:"required" db:"UserType"`
+	IsDisable bool     `db:"IsDisable"`
+}
+
+func NewAskInnerUserSetIsDisableByUserID() *AskInnerUserSetIsDisableByUserID {
+	return &AskInnerUserSetIsDisableByUserID{}
+}
+
+// 禁用用户
+func (m *Proxy) InnerUserSetIsDisableByUserID(UserID string,
+	ask *AskInnerUserSetIsDisableByUserID,
+) (map[string]interface{}, error) {
+	type Ack struct {
+		Code    int
+		Message string
+		Data    map[string]interface{}
+	}
+	ack := &Ack{}
+	err := m.Invoke(
+		"POST",
+		"/inner/user/user/set/is_disable/:user_id",
+		ask,
+		ack,
+		map[string]interface{}{
+			"user_id": UserID,
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	if ack.Code != 0 {
+		return nil, m.Error(ack.Code, ack.Message)
+	}
+	return ack.Data, nil
+}

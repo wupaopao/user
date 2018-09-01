@@ -376,3 +376,27 @@ func (m *Proxy) WxXcxUserCheckBindMobileByMobile(Mobile string,
 	}
 	return ack.Data, nil
 }
+
+// 用户解绑微信
+func (m *Proxy) WxXcxUserUnbindWx() (map[string]interface{}, error) {
+	type Ack struct {
+		Code    int
+		Message string
+		Data    map[string]interface{}
+	}
+	ack := &Ack{}
+	err := m.Invoke(
+		"POST",
+		"/user/wx_xcx/user/unbind_wx",
+		nil,
+		ack,
+		nil,
+	)
+	if err != nil {
+		return nil, err
+	}
+	if ack.Code != 0 {
+		return nil, m.Error(ack.Code, ack.Message)
+	}
+	return ack.Data, nil
+}

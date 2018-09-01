@@ -603,3 +603,70 @@ func MakeApiInnerUserWxXcxRefreshToken() ApiInnerUserWxXcxRefreshToken {
 		Ask: NewAskInnerUserWxXcxRefreshToken(),
 	}
 }
+
+type UserType int
+
+const (
+	// 团购组织负责人
+	OrgManager UserType = 1
+	// 团购组织成员
+	OrgStaff UserType = 2
+	// 社区合伙人
+	CmtManager UserType = 3
+)
+
+func (m UserType) String() string {
+	switch m {
+
+	case OrgManager:
+		return "OrgManager<enum UserType>"
+	case OrgStaff:
+		return "OrgStaff<enum UserType>"
+	case CmtManager:
+		return "CmtManager<enum UserType>"
+	default:
+		return "UNKNOWN_Name_<UserType>"
+	}
+}
+
+type AskInnerUserSetIsDisableByUserID struct {
+	UserType  UserType `binding:"required" db:"UserType"`
+	IsDisable bool     `db:"IsDisable"`
+}
+
+func NewAskInnerUserSetIsDisableByUserID() *AskInnerUserSetIsDisableByUserID {
+	return &AskInnerUserSetIsDisableByUserID{}
+}
+
+type MetaApiInnerUserSetIsDisableByUserID struct {
+}
+
+var META_INNER_USER_SET_IS_DISABLE_BY_USER_ID = &MetaApiInnerUserSetIsDisableByUserID{}
+
+func (m *MetaApiInnerUserSetIsDisableByUserID) GetMethod() string { return "POST" }
+func (m *MetaApiInnerUserSetIsDisableByUserID) GetURL() string {
+	return "/inner/user/user/set/is_disable/:user_id"
+}
+func (m *MetaApiInnerUserSetIsDisableByUserID) GetName() string {
+	return "InnerUserSetIsDisableByUserID"
+}
+func (m *MetaApiInnerUserSetIsDisableByUserID) GetType() string { return "json" }
+
+// 禁用用户
+type ApiInnerUserSetIsDisableByUserID struct {
+	MetaApiInnerUserSetIsDisableByUserID
+	Ask    *AskInnerUserSetIsDisableByUserID
+	Params struct {
+		UserID string `form:"user_id" db:"UserID"`
+	}
+}
+
+func (m *ApiInnerUserSetIsDisableByUserID) GetQuery() interface{}  { return nil }
+func (m *ApiInnerUserSetIsDisableByUserID) GetParams() interface{} { return &m.Params }
+func (m *ApiInnerUserSetIsDisableByUserID) GetAsk() interface{}    { return m.Ask }
+func (m *ApiInnerUserSetIsDisableByUserID) GetAck() interface{}    { return nil }
+func MakeApiInnerUserSetIsDisableByUserID() ApiInnerUserSetIsDisableByUserID {
+	return ApiInnerUserSetIsDisableByUserID{
+		Ask: NewAskInnerUserSetIsDisableByUserID(),
+	}
+}

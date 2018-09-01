@@ -30,6 +30,7 @@ func init() {
 	AddInnerUserUserCmtManagerUnbindHandler()
 	AddInnerUserWxXcxCmtManagerGetOrAddHandler()
 	AddInnerUserWxXcxRefreshTokenHandler()
+	AddInnerUserSetIsDisableByUserIDHandler()
 }
 
 // 获取用户信息
@@ -929,4 +930,38 @@ func (m *InnerUserWxXcxRefreshTokenImpl) Handler(ctx *http.Context) {
 		return
 	}
 
+}
+
+// 禁用用户
+type InnerUserSetIsDisableByUserIDImpl struct {
+	cidl.ApiInnerUserSetIsDisableByUserID
+}
+
+func AddInnerUserSetIsDisableByUserIDHandler() {
+	AddHandler(
+		cidl.META_INNER_USER_SET_IS_DISABLE_BY_USER_ID,
+		func() http.ApiHandler {
+			return &InnerUserSetIsDisableByUserIDImpl{
+				ApiInnerUserSetIsDisableByUserID: cidl.MakeApiInnerUserSetIsDisableByUserID(),
+			}
+		},
+	)
+}
+
+func (m *InnerUserSetIsDisableByUserIDImpl) Handler(ctx *http.Context) {
+	var (
+		err error
+	)
+	userId := m.Params.UserID
+	userType := m.Ask.UserType
+	isDisable := m.Ask.IsDisable
+
+	dbUser := db.NewMallUser()
+	_, err = dbUser.UpdateUserDisableState(userId,userType,isDisable)
+	if err != nil {
+		ctx.Errorf(api.ErrDBUpdateFailed, "update user db failed. %s", err)
+		return
+	}
+
+	ctx.Succeed()
 }

@@ -266,3 +266,29 @@ POST "/inner/user/wx_xcx/refresh_token" {
 }
 
 
+enum UserType {
+
+	# 团购组织负责人
+	OrgManager 1
+	
+	# 团购组织成员
+	OrgStaff   2
+	
+	# 社区合伙人
+	CmtManager 3
+	
+} 
+
+# 禁用用户
+POST "/inner/user/user/set/is_disable/:user_id" {
+
+	Name "InnerUserSetIsDisableByUserID"
+	Type "json"
+	Ask {
+		UserType UserType [ binding:"required" ] 
+		IsDisable bool    
+	}
+	Params {
+		UserID string [ form:"user_id" ]
+	}
+}

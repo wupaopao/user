@@ -83,7 +83,7 @@ func (m *UserOrgUserLoginImpl) Handler(ctx *http.Context) {
 
 	//该账号被禁用
 	if ackStaff.Staff.IsDisable {
-		ctx.Errorf(cidl.ErrOrgLoginUserForbidden, "user was forbidden")
+		ctx.Errorf(cidl.ErrLoginUserForbidden, "user was forbidden")
 		return
 	}
 

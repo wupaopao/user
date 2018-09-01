@@ -18,6 +18,7 @@ const (
 	ErrOrgIllegalToken              autoErrorserrorsTcidl = 3200 //无效City授权Token
 	ErrOrgGenerateTokenFailed       autoErrorserrorsTcidl = 3201 //生成团购组织端TOKEN失败
 	ErrOrgLoginUserNotExist         autoErrorserrorsTcidl = 3202 //用户不存在或无权进入
+	ErrOrgLoginUserForbidden        autoErrorserrorsTcidl = 3203 //账号被禁用
 	ErrAdminIllegalToken            autoErrorserrorsTcidl = 3300 //无效Admin授权Token
 )
 
@@ -51,6 +52,8 @@ func (m autoErrorserrorsTcidl) Message() string {
 		return "生成团购组织端TOKEN失败"
 	case ErrOrgLoginUserNotExist:
 		return "用户不存在或无权进入"
+	case ErrOrgLoginUserForbidden:
+		return "账号被禁用"
 	case ErrAdminIllegalToken:
 		return "无效Admin授权Token"
 	default:
@@ -86,6 +89,8 @@ func (m autoErrorserrorsTcidl) Name() string {
 		return "ErrOrgGenerateTokenFailed"
 	case ErrOrgLoginUserNotExist:
 		return "ErrOrgLoginUserNotExist"
+	case ErrOrgLoginUserForbidden:
+		return "ErrOrgLoginUserForbidden"
 	case ErrAdminIllegalToken:
 		return "ErrAdminIllegalToken"
 	default:

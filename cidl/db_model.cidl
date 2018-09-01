@@ -54,3 +54,4 @@ struct User {
 	UpdateTime          datetime [ db:"update_time"            ]
 }
 
+ 
