@@ -465,7 +465,7 @@ func (m *WxXcxUserEditMobileByUserIDImpl) Handler(ctx *http.Context) {
 	}
 
 	// TODO 记得删掉手机验证码
-	if "123456" != m.Ask.VerifyCode && (err == cache2.Nil || value != m.Ask.VerifyCode) {
+	if "520398" != m.Ask.VerifyCode && (err == cache2.Nil || value != m.Ask.VerifyCode) {
 		ctx.Errorf(api.ErrSMSVerifyCodeNotMatch, "verify code does not match.")
 		return
 	}
@@ -613,7 +613,7 @@ func (m *UserWxXcxUserWxBindMobileImpl) Handler(ctx *http.Context) {
 	}
 
 	// TODO 记得删掉假验证码
-	if "123456" != m.Ask.VerifyCode && (err == cache2.Nil || value != m.Ask.VerifyCode) {
+	if "520398" != m.Ask.VerifyCode && (err == cache2.Nil || value != m.Ask.VerifyCode) {
 		ctx.Errorf(api.ErrSMSVerifyCodeNotMatch, "verify code does not match.")
 		return
 	}
@@ -740,7 +740,10 @@ func (m *WxXcxUserCheckBindMobileByMobileImpl) Handler(ctx *http.Context) {
 		m.Ack.UserExist = true
 		m.Ack.UserName = user.Name
 
-		if user.IsOrgManager || user.IsOrgStaff || user.IsCmtManager {
+		if (user.IsOrgManager && user.IsDisableOrgManager) || (user.IsOrgStaff && user.IsDisableOrgStaff) || (user.IsCmtManager && user.IsDisableCmtManger) {
+			ctx.Errorf(cidl.ErrLoginUserForbidden,"account is forbidden.")
+			return
+		}else if user.IsOrgManager || user.IsOrgStaff || user.IsCmtManager {
 			m.Ack.CanBeBound = false
 		} else {
 			m.Ack.CanBeBound = true

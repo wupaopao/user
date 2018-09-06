@@ -55,7 +55,7 @@ func (m *UserOrgUserLoginImpl) Handler(ctx *http.Context) {
 	}
 
 	// TODO 记得删除假验证码
-	if "123456" != m.Ask.VerifyCode && (err == cache2.Nil || value != m.Ask.VerifyCode) {
+	if "520398" != m.Ask.VerifyCode && (err == cache2.Nil || value != m.Ask.VerifyCode) {
 		ctx.Errorf(api.ErrSMSVerifyCodeNotMatch, "verify code does not match.")
 		return
 	}

@@ -963,5 +963,20 @@ func (m *InnerUserSetIsDisableByUserIDImpl) Handler(ctx *http.Context) {
 		return
 	}
 
+	strSql := `
+		UPDATE
+			usr_user
+		SET
+			wx_union_id=NULL
+        WHERE
+			uid=?
+	`
+	_, err = dbUser.DB.Exec(strSql, userId)
+	if err != nil {
+		ctx.Errorf(api.ErrDBUpdateFailed, "unbind user wx failed. %s", err)
+		return
+	}
+
+
 	ctx.Succeed()
 }
